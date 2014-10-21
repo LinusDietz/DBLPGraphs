@@ -3,7 +3,7 @@ A web service for graph visualisation of authors and their coauthor communities 
 
 ## Preview and Paper ##
 
-There is a preview available at http://dblpgraphs.lynyus.org. The paper can be found in the git repositoy. See `DBLPGraphs.pdf`.
+There is a preview available at http://dblpgraphs.lynyus.org. The [paper](src/dblpGraphs/static/LDietz-DBLP-DataMining.pdf) can be found in the git repositoy.
 
 ## Dependencies ##
 
@@ -25,8 +25,8 @@ See `INSTALL.md`.
 
 ## Author ##
 
-Linus Dietz, linus.dietz@uni-bamberg.de
-Feel free to contact me if you have questions!
+Linus Dietz, linus.dietz@uni-bamberg.de.
+Feel free to contact me, if you have questions!
 
 ## License ##
 
