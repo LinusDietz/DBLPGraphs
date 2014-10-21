@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Author Search{% endblock %}
+
+{% block content %}
+<h2>Author search</h2>
+{% if msg %}
+    <p style="color:#124AA8">{{msg}} You might also want to try the <a href="http://dblp.uni-trier.de/pers/hs?q={{query.split|join:"+"}}" target="_blank">DBLP search engine</a>.</p>
+{% endif %}
+<form action="/coauthors" method="get">
+    <input type="text" name="q">
+    <input type="submit" value="Search">
+</form>
+{% endblock %}

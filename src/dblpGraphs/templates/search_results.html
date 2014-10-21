@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Search Results - {{query}}{% endblock %}
+
+{% block content %}
+<p>You searched for: <strong>{{ query }}</strong></p>
+
+<div id="graphs">
+    <ul><b>Following graphs are available for download (PDF):</b>
+        <li><a href="coauthorspdf?q={{query.split|join:"+"}}">Coauthors graph</a> (shown below)</a>.</li>
+    <li><a href="coauthors2pdf?q={{query.split|join:"+"}}">Coauthors of coauthor graphs</a>.</li>
+    </ul>
+</div>
+
+<div id="authors">
+    {% if coAuthors %}
+        <b>Found {{ coAuthors|length }} coauthor{{ coAuthors|pluralize }} (Number of mutual publications):</b><br />
+        {% for coa in coAuthors %}
+        <a href="/coauthors?q={{coa.0.split|join:"+"}}">{{ coa.0 }}</a> ({{coa.1}}){% if forloop.last %}.{% else %},{% endif %}
+        {% endfor %}
+</div>
+<img src="{% static image %}" width="1200px" />
+
+{% else %}
+<p>No Authors matched your search criteria.</p>
+{% endif %}
+{% endblock %}
+

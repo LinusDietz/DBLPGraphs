@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+Welcome to <b>DBLPGraphs</b>. This web service utilizes the <a href="http://dblp.uni-trier.de">DBLP Computer Science Bibliography</a> database to generate graphs of authors and their coauthors. The main goal is to easily identify and visaulize communities of authors and their coauthors in computer science.<br />
+This service was created in spring 2014 by <a href="https://lynyus.org">Linus Dietz</a> as an accompanying project to the Data Mining Lecture of <a href="http://www.mif.vu.lt/~linb/wiki/doku.php">Dr. Linas Bukaskas</a> at <a href="http://mif.vu.lt">MIF Vilnius University</a>. You can read the PDF paper <a href="{% static "LDietz-DBLP-DataMining.pdf" %}">here</a>.
+
+{% include "overview.html" %}
+<h2>Search for one of the {{db}} authors</h2>
+{% include "searchField.html" %}
+Don't know whom to search for? Try <a href="coauthors?q={{randomAuthor.split|join:"+"}}">{{randomAuthor}}</a>.
+{% endblock %}
+

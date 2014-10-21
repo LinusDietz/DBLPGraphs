@@ -1,0 +1,33 @@
+{% block content %}
+<h2>Overview</h2>
+<div id="topAuthors">
+    <b>Top authors (publication count):</b><br />
+    {% for key, value in stats.topAuthors %}
+    {{ key }} ({{ value }}){% if forloop.last %}.{% else %},{% endif %}
+    {% endfor %}<br />
+    <b>Top authors (coauthors):</b><br />
+    {% for key, value in stats.topCoAuthors %}
+    {{ key }} ({{ value }}){% if forloop.last %}.{% else %},{% endif %}
+    {% endfor %}
+</div>
+<div id="authors">
+<ul>
+    <li>Mean publications per author: {{ stats.mean }}</li>
+    <li>Variance of publications per author: {{ stats.var }}</li>
+    <li>Median of publications: {{ stats.median }}</li>
+    <li>Mode of publications: {{ stats.mode}}</li>
+    <li>Mean of coauthors: {{ stats.coaMean}}</li>
+    <li>Variance of coauthors: {{ stats.coaVar}}</li>
+    <li>Median of coauthors: {{ stats.coaMedian}}</li>
+    <li>Mode of coauthors: {{ stats.coaMode}}</li>
+    <li> Publication Distribution:
+    {% for pub in stats.publications %}
+    {{ pub.0|title}} {{pub.1}}%{% if forloop.last %}.{% else %},{% endif %}
+    {% endfor %}</li>
+</ul>
+</div>
+
+    {% endblock %}
+
+
+
