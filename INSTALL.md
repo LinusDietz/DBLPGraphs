@@ -14,22 +14,22 @@ This manual is intended for **Arch Linux**. Still, it should be pretty similar i
     # echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
     # locale-gen
 
-3) Get the files and create the Installation Directory
+3) Get the files and create the installation directory
 
     $ cd /tmp/
-    $ wget correct file
-    $ mkdir /var/www
-    $ cp -r CORRECTDIR /var/www/
-    $ cd /var/www/dblpGraphs
+    $ wget https://github.com/lynyus/DBLPGraphs/archive/master.zip
+    $ unzip DBLPGraphs-master.zip
+    $ mkdir /var/www # Or any other directory
+    $ cp -r DBLPGraphs-master/src/* /var/www/
 
 
-Run the update script
+4/a) Run the update script
 
-    $ cd ./dblpGraphs/dblpGraphs/
+    $ cd /var/www/dblpGraphs/dblpGraphs/
     $ ./updateXML.sh # downloads the XML-Files from DBLP
     $ cd ..
 
-Run the development server
+4/b) Run the development server
 
     $ python2 manage.py runserver 0.0.0.0:8000
 
