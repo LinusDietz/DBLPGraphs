@@ -7,25 +7,26 @@ There is a preview available at http://dblpgraphs.lynyus.org. The [paper](src/db
 
 ## Dependencies ##
 
-*Hard Dependencies*
+*Hard dependencies*
 
 * Python2 >= 2.6
 * Django >= 1.7
-* Python-Numpy
+* Python2-numpy
 * Graphviz
 
-*Additional*
+*Additional soft dependencies for installation*
 
 * wget
 * unzip
 
 ## Installation ##
 
-See `INSTALL.md`.
+See [`INSTALL.md`](./INSTALL.md).
 
 ## Author ##
 
 Linus Dietz, linus.dietz@uni-bamberg.de.
+
 Feel free to contact me, if you have questions!
 
 ## License ##

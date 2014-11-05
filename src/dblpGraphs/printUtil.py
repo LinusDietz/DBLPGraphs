@@ -2,6 +2,7 @@ import os
 import time
 import urllib
 
+# Create a level-1 coauthors graph in the PNG format
 def printSFDPa(database, author):
     startTime = time.time()
     sfdpFile = 'graph '+ dotFileEsc(author) + ' {\noverlap = false;\nsplines = spline;\n'
@@ -26,6 +27,7 @@ def printSFDPa(database, author):
     endTime = (time.time() - startTime)
     print "Created a connected PNG coauthor graph of '" + author + "' after %d m %d s!" % (endTime / 60, endTime % 60)
 
+# Create a level-1 coauthors graph in the PDF format
 def printSFDPaPDF(database, author):
     startTime = time.time()
     sfdpFile = 'graph '+ dotFileEsc(author) + ' {\noverlap = false;\nsplines = spline;\n'
@@ -50,6 +52,7 @@ def printSFDPaPDF(database, author):
     endTime = (time.time() - startTime)
     print "Created a connected PNG coauthor graph of '" + author + "' after %d m %d s!" % (endTime / 60, endTime % 60)
 
+# A prototype method for weighted graphs
 def printSFDPaWeigths(database, author):
     startTime = time.time()
     sfdpFile = 'graph '+ dotFileEsc(author) + ' {\noverlap = false;\nsplines = spline;\n'
@@ -74,6 +77,7 @@ def printSFDPaWeigths(database, author):
     endTime = (time.time() - startTime)
     print "Created a weigthed and connected PDF coauthor graph of '" + author + "' after %d m %d s!" % (endTime / 60, endTime % 60)
 
+# Create a level-2 coauthors graph in the PDF format
 def printSFDP2PDF(database, author):
     startTime = time.time()
     sfdpFile = 'graph '+ dotFileEsc(author) + ' {\noverlap = false;\nsplines = curved;\n'
@@ -98,15 +102,15 @@ def printSFDP2PDF(database, author):
     endTime = (time.time() - startTime)
     print "Created PDF coauthor of coauthors graph of '" + author + "' after %d m %d s!" % (endTime / 60, endTime % 60)
 
+# Some auxiliary methods
 
 def dotFileEsc(string):
-    #return '\"' + urllib.unquote(string) + '\"'
     return '\"' + string + '\"'
 
 def pathEsc(string):
     return string.replace(' ', '_').replace('.', '')
-    #return urllib.quote(string)
 
+# Define the output path
 def outputPath(mytype, author):
     return 'dblpGraphs/static/output/'+ mytype + pathEsc(author) + '.sfdp'
     

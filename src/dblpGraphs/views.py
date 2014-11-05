@@ -6,6 +6,7 @@ import random
 import time
 import urllib
 
+# Main page
 def home(request):
     randomAuthor = random.choice(db.coauthorsDB.keys())
     while len(db.coauthorsDB[randomAuthor]) < 10 or len(db.coauthorsDB[randomAuthor]) > 100:
@@ -13,6 +14,7 @@ def home(request):
     return render(request, 'index.html', {'db' : len(db.coauthorsDB), 'stats' : stats, 'randomAuthor' : urllib.unquote(randomAuthor) }, )
 
 
+# Search results
 def coAuthors(request):
     msg = "Please enter a valid search term!"
     if 'q' in request.GET and request.GET['q']:
@@ -37,6 +39,7 @@ def coAuthors(request):
     else:
         return render(request, 'search.html', {'msg' : msg})
 
+# Returns the level-1 PDF
 def coAuthorsPDF(request):
     if 'q' in request.GET and request.GET['q']:
         q = urllib.quote(request.GET['q'].encode('utf8'))
@@ -54,6 +57,7 @@ def coAuthorsPDF(request):
             return response
         pdf.closed
 
+# Returns the level-2 PDF
 def coAuthors2PDF(request):
     if 'q' in request.GET and request.GET['q']:
         q = urllib.quote(request.GET['q'].encode('utf8'))

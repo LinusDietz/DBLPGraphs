@@ -24,7 +24,6 @@ stats = Stats()
 
 
 urlpatterns = patterns('',
-    # Examples:
     url(r'^$', 'dblpGraphs.views.home', name='home'),
     url(r'^coauthors$', 'dblpGraphs.views.coAuthors', name='coAauthors'),
     url(r'^coauthorspdf$', 'dblpGraphs.views.coAuthorsPDF', name='coAauthorspdf'),
