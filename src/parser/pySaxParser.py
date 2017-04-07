@@ -11,10 +11,10 @@ def add_coauthors(author, coauthors):
         if not addAuthor == author.name:
             try:
                 exits_author = Author.objects.get(name=addAuthor)
-                print("Exists, added as Coauthor", exits_author.name)
+                #print("Exists, added as Coauthor", exits_author.name)
                 author.co_authors.add(exits_author)
             except:
-                print("Does not Exist, added as Coauthor", addAuthor)
+                #print("Does not Exist, added as Coauthor", addAuthor)
                 db_author = Author(name=addAuthor)
                 db_author.save()
                 author.co_authors.add(db_author)
@@ -93,10 +93,10 @@ class DBLPContentHandler(ContentHandler):
             for createAuthor in self.tempAuthors:
                 try:
                     exits_author = Author.objects.get(name=createAuthor)
-                    print("Exists:", exits_author.name)
+                    #print("Exists:", exits_author.name)
                     add_coauthors(exits_author, self.tempAuthors)
                 except:
-                    print("Does not Exist:", createAuthor)
+                    #print("Does not Exist:", createAuthor)
                     db_author = Author(name=createAuthor)
                     db_author.save()
                     add_coauthors(db_author, self.tempAuthors)

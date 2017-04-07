@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from dblpGraphs.models import Author
 from . import printUtil
 import random
 import urllib.request
@@ -10,36 +11,31 @@ import urllib.error
 
 # Main page
 def home(request):
-    randomAuthor = random.choice(list(db.coauthorsDB.keys()))
-    while len(db.coauthorsDB[randomAuthor]) < 10 or len(db.coauthorsDB[randomAuthor]) > 100:
-        randomAuthor = random.choice(list(db.coauthorsDB.keys()))
-    return render(request, 'index.html',
-                  {'db': len(db.coauthorsDB), 'stats': stats, 'randomAuthor': urllib.parse.unquote(randomAuthor)}, )
+    random_author = random.choice(list(Author.objects.all()))
+    co_authors = random_author.co_authors.all()
+    #while len(co_authors) < 10 or len(co_authors) > 100:
+    #    random_author = random.choice(list(Author.objects.all()))
+    return render(request, 'index.html', {'db' : len(Author.objects.all()), 'randomAuthor' : random_author.name }, )
 
 
 # Search results
 def coAuthors(request):
     msg = "Please enter a valid search term!"
     if 'q' in request.GET and request.GET['q']:
-        q = urllib.parse.quote(request.GET['q'].encode('utf8'))
-        u = urllib.parse.unquote(q)
+        q= request.GET['q']
         if not q:
             msg = "Please enter a search term!"
             return render(request, 'search.html', {'msg': msg})
         else:
             try:
-                coAuthors_raw = db.coauthorsDB[q]
-                coAuthors1 = []
-                for coa in coAuthors_raw:
-                    coAuthors1.append((urllib.parse.unquote(coa), db.coauthorsDB[q][coa]))
-                printUtil.printSFDPa(db, q)
-                image = 'output/coadb_connected_' + printUtil.pathEsc(u) + '.sfdp.png'
-                # image = printUtil.outputPath("coadb_connected_", q) + ".png"
+                author = Author.objects.get(name=q)
+                printUtil.printSFDPa(q)
+                image = printUtil.outputPath("coadb_connected_", q) + ".png"
                 return render(request, 'search_results.html',
-                              {'coAuthors': coAuthors1, 'query': urllib.parse.unquote(q), 'image': image})
+                              {'coAuthors': author.co_authors.all(), 'query': q, 'image': image})
             except:
-                msg = "'%s' was not found in the database. Please enter the exact name of the author!" % u
-                return render(request, 'search.html', {'msg': msg, 'query': u})
+                msg = "'%s' was not found in the database. Please enter the exact name of the author!" % q
+                return render(request, 'search.html', {'msg': msg, 'query': q})
     else:
         return render(request, 'search.html', {'msg': msg})
 

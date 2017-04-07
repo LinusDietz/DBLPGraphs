@@ -6,8 +6,8 @@ from dblpGraphs import views
 
 
 urlpatterns = [
-               url(r'^$', views.home),
-               url(r'^coauthors$', views.coAuthors),
+               url(r'^$', views.home, name='home'),
+               url(r'^coauthors$', views.coAuthors, name='coauthors'),
                url(r'^coauthorspdf$', views.coAuthorsPDF),
                url(r'^coauthors2pdf$', views.coAuthors2PDF),
-               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

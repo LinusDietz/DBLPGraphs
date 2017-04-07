@@ -4,25 +4,28 @@ import urllib.request, urllib.parse, urllib.error
 
 
 # Create a level-1 coauthors graph in the PNG format
-def printSFDPa(database, author):
+from dblpGraphs.models import Author
+
+
+def printSFDPa(author):
     startTime = time.time()
     sfdpFile = 'graph ' + dotFileEsc(author) + ' {\noverlap = false;\nsplines = spline;\n'
 
     relAuthors = set()
     relAuthors.add(author)
-    for coAuthor in database.coauthorsDB[author]:
-        relAuthors.add(coAuthor)
+    for coAuthor in Author.objects.get(name=author).co_authors.all():
+        relAuthors.add(coAuthor.name)
 
     for relAuthor in relAuthors:
-        for coAuthor in database.coauthorsDB[relAuthor]:
-            if coAuthor in relAuthors:
-                sfdpFile += dotFileEsc(relAuthor) + ' -- ' + dotFileEsc(coAuthor) + '\n'
+        for coAuthor in Author.objects.get(name=relAuthor).co_authors.all():
+            if coAuthor.name in relAuthors:
+                sfdpFile += dotFileEsc(relAuthor) + ' -- ' + dotFileEsc(coAuthor.name) + '\n'
 
     sfdpFile += '}'
-    sfdpFileName = outputPath("coadb_connected_", urllib.parse.unquote(author))
+    sfdpFileName = 'dblpGraphs/static/' +outputPath("coadb_connected_", author)
 
-    f = open(sfdpFileName, 'wb')
-    f.write(urllib.parse.unquote(sfdpFile))
+    f = open( sfdpFileName, 'w')
+    f.write(sfdpFile)
     f.close()
     os.system('sfdp ' + sfdpFileName + ' -Gconcentrate=true -Tpng -o' + sfdpFileName + '.png')
     endTime = (time.time() - startTime)
@@ -120,4 +123,4 @@ def pathEsc(string):
 
 # Define the output path
 def outputPath(mytype, author):
-    return 'dblpGraphs/static/output/' + mytype + pathEsc(author) + '.sfdp'
+    return 'output/' + mytype + pathEsc(author) + '.sfdp'

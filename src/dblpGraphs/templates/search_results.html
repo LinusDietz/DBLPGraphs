@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load staticfiles %}
+{% load static %}
 {% block title %}Search Results - {{query}}{% endblock %}
 
 {% block content %}
@@ -16,9 +16,10 @@
     {% if coAuthors %}
         <b>Found {{ coAuthors|length }} coauthor{{ coAuthors|pluralize }} (Number of mutual publications):</b><br />
         {% for coa in coAuthors %}
-        <a href="/coauthors?q={{coa.0.split|join:"+"}}">{{ coa.0 }}</a> ({{coa.1}}){% if forloop.last %}.{% else %},{% endif %}
+        <a href="/coauthors?q={{coa.name.split|join:"+"}}">{{ coa.name }}</a>{% if forloop.last %}.{% else %},{% endif %}
         {% endfor %}
 </div>
+
 <img src="{% static image %}" width="1200px" />
 
 {% else %}
