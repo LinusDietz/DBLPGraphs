@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "Database Delete"
+rm dblp.sqlite3
+
+echo "Database Migrations"
+python manage.py makemigrations
+python manage.py migrate
+
+echo "Database Read"
+python populate_db.py

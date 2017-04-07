@@ -1,16 +1,25 @@
-import os
 import time
-import urllib.error
-import urllib.parse
-import urllib.request
 import xml.sax
 from xml.sax.handler import ContentHandler
 
-from django.core.wsgi import get_wsgi_application
 
 from dblpGraphs.models import Author
-os.environ["DJANGO_SETTINGS_MODULE"] = "dblpGraphs.config.settings"
-application = get_wsgi_application()
+
+
+def add_coauthors(author, coauthors):
+    for addAuthor in coauthors:
+        if not addAuthor == author.name:
+            try:
+                exits_author = Author.objects.get(name=addAuthor)
+                print("Exists, added as Coauthor", exits_author.name)
+                author.co_authors.add(exits_author)
+            except:
+                print("Does not Exist, added as Coauthor", addAuthor)
+                db_author = Author(name=addAuthor)
+                db_author.save()
+                author.co_authors.add(db_author)
+
+
 
 class DBLPContentHandler(ContentHandler):
     def __init__(self):
@@ -70,7 +79,7 @@ class DBLPContentHandler(ContentHandler):
             self.currentString += content
 
     def endElement(self, pubType):
-        self.currentString = urllib.parse.quote(self.currentString.encode('utf-8'))
+        self.currentString = self.currentString #urllib.parse.quote(self.currentString.encode('utf-8'))
         # if characters() found something
         if self.currentString:
             self.tempAuthors.append(self.currentString)
@@ -82,23 +91,15 @@ class DBLPContentHandler(ContentHandler):
             self.parentFlag = False
             # create coauthors database
             for createAuthor in self.tempAuthors:
-                db_author = Author()
-                db_author.name = createAuthor
-                db_author.save()
-                return
-                if not (createAuthor in self.coauthorsDB):
-
-                    self.coauthorsDB[createAuthor] = dict()
-                    for addAuthor in self.tempAuthors:
-                        if not addAuthor == createAuthor:
-                            self.coauthorsDB[createAuthor][addAuthor] = 1
-                else:
-                    for addAuthor in self.tempAuthors:
-                        if not addAuthor == createAuthor:
-                            if not addAuthor in self.coauthorsDB[createAuthor]:
-                                self.coauthorsDB[createAuthor][addAuthor] = 1
-                            else:
-                                self.coauthorsDB[createAuthor][addAuthor] += 1
+                try:
+                    exits_author = Author.objects.get(name=createAuthor)
+                    print("Exists:", exits_author.name)
+                    add_coauthors(exits_author, self.tempAuthors)
+                except:
+                    print("Does not Exist:", createAuthor)
+                    db_author = Author(name=createAuthor)
+                    db_author.save()
+                    add_coauthors(db_author, self.tempAuthors)
             # flush
             self.tempAuthors = []
         if self.parentFlag and (pubType == 'author' or pubType == 'editor'):
@@ -106,4 +107,4 @@ class DBLPContentHandler(ContentHandler):
 
 
 ch = DBLPContentHandler()
-xml.sax.parse(open('dblp_mini.xml'), ch)
+xml.sax.parse(open('parser/dblp.xml'), ch)
