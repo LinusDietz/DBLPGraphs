@@ -33,25 +33,25 @@ def printSFDPa(author):
 
 
 # Create a level-1 coauthors graph in the PDF format
-def printSFDPaPDF(database, author):
+def printSFDPaPDF(author):
     startTime = time.time()
     sfdpFile = 'graph ' + dotFileEsc(author) + ' {\noverlap = false;\nsplines = spline;\n'
 
     relAuthors = set()
     relAuthors.add(author)
-    for coAuthor in database.coauthorsDB[author]:
+    for coAuthor in Author.objects.get(name=author).co_authors.all():
         relAuthors.add(coAuthor)
 
     for relAuthor in relAuthors:
-        for coAuthor in database.coauthorsDB[relAuthor]:
-            if coAuthor in relAuthors:
-                sfdpFile += dotFileEsc(relAuthor) + ' -- ' + dotFileEsc(coAuthor) + '\n'
+        for coAuthor in Author.objects.get(name=relAuthor).co_authors.all():
+            if coAuthor.name in relAuthors:
+                sfdpFile += dotFileEsc(relAuthor) + ' -- ' + dotFileEsc(coAuthor.name) + '\n'
 
     sfdpFile += '}'
-    sfdpFileName = outputPath("coadb_connected_", urllib.parse.unquote(author))
+    sfdpFileName = 'dblpGraphs/static/' + outputPath("coadb_connected_", author)
 
-    f = open(sfdpFileName, 'wb')
-    f.write(urllib.parse.unquote(sfdpFile))
+    f = open(sfdpFileName, 'w')
+    f.write(sfdpFile)
     f.close()
     os.system('sfdp ' + sfdpFileName + ' -Gconcentrate=true -Tpdf -o' + sfdpFileName + '.pdf')
     endTime = (time.time() - startTime)
@@ -87,24 +87,22 @@ def printSFDPaWeigths(database, author):
 
 
 # Create a level-2 coauthors graph in the PDF format
-def printSFDP2PDF(database, author):
+def printSFDP2PDF(author):
     startTime = time.time()
     sfdpFile = 'graph ' + dotFileEsc(author) + ' {\noverlap = false;\nsplines = curved;\n'
     line = ''
-    for coAuthor in database.coauthorsDB[author]:
-        line += dotFileEsc(author) + ' --'
-        line += ' ' + dotFileEsc(coAuthor) + '\n'
-        for coAuthor2 in database.coauthorsDB[coAuthor]:
-            oline = dotFileEsc(coAuthor) + ' --'
-            oline += ' ' + dotFileEsc(coAuthor2) + '\n'
+    for coAuthor in Author.objects.get(name=author).co_authors.all():
+        line += dotFileEsc(author) + ' -- ' + dotFileEsc(coAuthor.name) + '\n'
+        for coAuthor2 in  Author.objects.get(name=coAuthor.name).co_authors.all():
+            oline = dotFileEsc(coAuthor.name) + ' -- ' + dotFileEsc(coAuthor2.name) + '\n'
             sfdpFile += oline
 
     sfdpFile += line
     sfdpFile += '}'
-    sfdpFileName = outputPath("coadb_coauthors_", urllib.parse.unquote(author))
+    sfdpFileName = 'dblpGraphs/static/' + outputPath("coadb_coauthors_", urllib.parse.unquote(author))
 
-    f = open(sfdpFileName, 'wb')
-    f.write(urllib.parse.unquote(sfdpFile))
+    f = open(sfdpFileName, 'w')
+    f.write(sfdpFile)
     f.close()
     os.system('sfdp ' + sfdpFileName + ' -Gconcentrate=true -Tpdf -o' + sfdpFileName + '.pdf')
     endTime = (time.time() - startTime)

@@ -43,14 +43,13 @@ def coAuthors(request):
 # Returns the level-1 PDF
 def coAuthorsPDF(request):
     if 'q' in request.GET and request.GET['q']:
-        q = urllib.parse.quote(request.GET['q'].encode('utf8'))
-        u = urllib.parse.unquote(q)
+        q = request.GET['q']
         if not q:
             msg = "Please enter a search term!"
             return render(request, 'search.html', {'msg': msg})
         else:
-            printUtil.printSFDPaPDF(db, q)
-            mypdf = 'dblpGraphs/static/output/coadb_connected_' + printUtil.pathEsc(u) + '.sfdp.pdf'
+            printUtil.printSFDPaPDF(q)
+            mypdf = 'dblpGraphs/static/output/coadb_connected_' + q + '.sfdp.pdf'
             with open(mypdf, 'r') as pdf:
                 # response = HttpResponse(pdf.read(), mimetype='application/pdf')
                 response = HttpResponse(content_type='application/pdf')
@@ -61,14 +60,13 @@ def coAuthorsPDF(request):
 # Returns the level-2 PDF
 def coAuthors2PDF(request):
     if 'q' in request.GET and request.GET['q']:
-        q = urllib.parse.quote(request.GET['q'].encode('utf8'))
-        u = urllib.parse.unquote(q)
+        q = request.GET['q']
         if not q:
             msg = "Please enter a search term!"
             return render(request, 'search.html', {'msg': msg})
         else:
-            printUtil.printSFDP2PDF(db, q)
-            mypdf = 'dblpGraphs/static/output/coadb_coauthors_' + printUtil.pathEsc(u) + '.sfdp.pdf'
+            printUtil.printSFDP2PDF(q)
+            mypdf = 'dblpGraphs/static/output/coadb_coauthors_' + printUtil.pathEsc(q) + '.sfdp.pdf'
             with open(mypdf, 'r') as pdf:
                 # response = HttpResponse(pdf.read(), mimetype='application/pdf')
                 response = HttpResponse(content_type='application/pdf')

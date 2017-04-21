@@ -74,14 +74,16 @@ ROOT_URLCONF = 'dblpGraphs.config.urls'
 
 WSGI_APPLICATION = 'dblpGraphs.config.wsgi.application'
 
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME':  os.path.join(BASE_DIR, '../dblp.sqlite3')
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dblp-db',
+        'USER': 'djangouser',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
