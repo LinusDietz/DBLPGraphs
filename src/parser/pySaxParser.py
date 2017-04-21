@@ -107,4 +107,4 @@ class DBLPContentHandler(ContentHandler):
 
 
 ch = DBLPContentHandler()
-xml.sax.parse(open('parser/dblp.xml'), ch)
+xml.sax.parse(open('/tmp/dblp.xml'), ch)

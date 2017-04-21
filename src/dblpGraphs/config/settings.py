@@ -83,7 +83,7 @@ DATABASES = {
         'USER': 'dblpclient',
         'PASSWORD': 'docker',
         'HOST': 'localhost',
-        'PORT': '32773',
+        'PORT': '5432',
     }
 }
 LANGUAGE_CODE = 'en-us'
