@@ -23,7 +23,6 @@ SECRET_KEY = 'none'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
 
 TEMPLATES = [
     {
@@ -32,9 +31,12 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -77,11 +79,11 @@ WSGI_APPLICATION = 'dblpGraphs.config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dblp-db',
-        'USER': 'djangouser',
-        'PASSWORD': '',
+        'NAME': 'DBLPGraphs',
+        'USER': 'dblpclient',
+        'PASSWORD': 'docker',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '32773',
     }
 }
 LANGUAGE_CODE = 'en-us'
