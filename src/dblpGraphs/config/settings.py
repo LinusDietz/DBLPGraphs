@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'DBLPGraphs',
         'USER': 'dblpclient',
         'PASSWORD': 'docker',
-        'HOST': 'localhost',
+        'HOST': 'dblpgraphs-db-instance',
         'PORT': '5432',
     }
 }

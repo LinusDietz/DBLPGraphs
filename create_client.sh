@@ -10,4 +10,4 @@ stty $stty_orig
 echo "### BUILDING CONTAINER ###"
 docker build -t dblpgraphs --build-arg dbpw=$passwd .
 echo "### RUNNING CONTAINER  ###"
-docker run --rm -p 8000:8000 -v $PWD/src:/usr/src/dblpgraphs -v /usr/src/resources --name dblpgraphs-client-instance dblpgraphs python manage.py runserver 0.0.0.0:8000
+docker run --rm -p 8000:8000 -v $PWD/src:/usr/src/dblpgraphs -v /usr/src/resources --link dblpgraphs-db-instance:dblpgraphs-db-instance --name dblpgraphs-client-instance dblpgraphs ./start.sh
