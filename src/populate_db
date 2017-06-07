@@ -1,7 +1,8 @@
 #!/bin/bash
 
-echo "Database Delete"
-rm dblp.sqlite3
+nohup /usr/lib/postgresql/9.3/bin/postgres -D /var/lib/postgresql/9.3/main -c config_file=/etc/postgresql/9.3/main/postgresql.conf &
+
+sh parser/updateXML.sh
 
 echo "Database Migrations"
 python manage.py makemigrations dblpGraphs

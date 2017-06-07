@@ -18,7 +18,6 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc
 #  them by prefixing each apt-get statement with DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-9.3 postgresql-client-9.3 postgresql-contrib-9.3 python-pip wget
 
-
 ADD requirements.txt .
 RUN pip install -r requirements.txt
 
@@ -39,19 +38,5 @@ RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.co
 
 # And add ``listen_addresses`` to ``/etc/postgresql/9.3/main/postgresql.conf``
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
-
-# Expose the PostgreSQL port
-EXPOSE 5432
-
 # Add VOLUMEs to allow backup of config, logs and databases
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
-
-# Set the default command to run when starting the container
-#CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main", "-c", "config_file=/etc/postgresql/9.3/main/postgresql.conf", "&"]
-
-
-# EXPOSE port 8000 to allow communication to/from server
-EXPOSE 8000
-
-# CMD specifcies the command to execute to start the server running.
-CMD sh start.sh
